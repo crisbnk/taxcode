@@ -48,9 +48,10 @@ body {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px; */
+  width: 100%;
 }
 
 .cover-container {
-  max-width: 42em;
+  max-width: 80%;
 }
 </style>

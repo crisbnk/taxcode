@@ -6,9 +6,8 @@ import App from './App';
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import 'vue-instant/dist/vue-instant.css';
-import VueInstant from 'vue-instant';
-Vue.use(VueInstant);
+import 'flag-icon-css/css/flag-icon.min.css';
+import 'vue-awesome/icons';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

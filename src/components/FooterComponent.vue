@@ -1,15 +1,20 @@
 <template>
   <footer class="mastfoot mt-auto">
     <div class="inner">
-      <p>Our link <a href="#">Github Alessia</a>, <a href="#">Github Cristiano</a>.</p>
+      <p>Made with <icon name="wine-glass"></icon> & <icon name="beer"></icon></p>
+      <p>by <a href="https://github.com/lalessia" target="_blank">@lalessia</a> & <a href="https://github.com/crisbnk" target="_blank">@crisbnk</a></p>
     </div>
   </footer>
 </template>
 
 <script>
+import Icon from 'vue-awesome/components/Icon'
 
 export default {
-  name: 'FooterComponent'
+  name: 'FooterComponent',
+  components: {
+    Icon
+  }
 };
 </script>
 

@@ -1,7 +1,10 @@
 <template>
     <header class="masthead mb-auto">
       <div class="inner">
-        <h3 class="masthead-brand">Codice Fiscale</h3>
+        <h3 class="masthead-brand">
+          <span class="flag-icon flag-icon-it"></span>
+          Tax Code Generator
+        </h3>
         <nav class="nav nav-masthead justify-content-center">
           <a class="nav-link active" href="#">Home</a>
           <a class="nav-link" href="#">Features</a>
@@ -37,6 +40,8 @@ export default {
 } */
   .masthead {
     margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #42b983;
   }
   /* .mb-auto, .my-auto {
     margin-bottom: auto!important;

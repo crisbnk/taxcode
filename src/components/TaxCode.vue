@@ -39,23 +39,19 @@
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label" for="birthPlace">LUOGO DI NASCITA</label>
-
           <div class="col-sm-10">
-            <vue-instant
-            v-model="birthPlace"
-            v-bind:class="{error: isBirthPlaceError}"
-            :suggestion-attribute="suggestionAttribute"
-            :disabled="false"
-            :suggestions="districts"
-            id="birthPlace"
-            :show-autocomplete="true"
-            :autofocus="false"
-            @enter="chosenDistrict"
-            @key-right="chosenDistrict"
-            @selected="selected"
-            placeholder="Luogo di Nascita"
-            type="google">
-            </vue-instant>
+            <vue-simple-suggest
+              id="birthPlace"
+              v-model="birthPlace"
+              v-bind:class="{error: isBirthPlaceError}"
+              mode="input"
+              :list="districts"
+              :display-attribute="suggestionAttribute"
+              :value-attribute="suggestionAttribute"
+              :filter-by-query="true"
+              placeholder="Luogo di Nascita"
+              @select="selected">
+            </vue-simple-suggest>
           </div>
         </div>
         <div class="form-group row">
@@ -78,6 +74,8 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import { regex, evenValuesSchema, oddValuesSchema } from '../handlers';
+import VueSimpleSuggest from 'vue-simple-suggest';
+import 'vue-simple-suggest/dist/styles.css';
 
 export default {
   name: 'TaxCode',
@@ -98,16 +96,25 @@ export default {
       districts: [],
       suggestionAttribute: 'district',
       object: {},
-      cadastralCode: ''
+      cadastralCode: '',
+      autoCompleteStyle : {
+        vueSimpleSuggest: "position-relative",
+        inputWrapper: "",
+        defaultInput : "form-control",
+        suggestions: "position-absolute list-group z-1000",
+        suggestItem: "list-group-item"
+      }
     };
   },
 
   methods: {
     selected: function(obj) {
+      if(!obj) return;
       this.object = obj;
+      this.chosenDistrict(obj.district);
     },
-    chosenDistrict: function() {
-      var birthPlaceArr = this.birthPlace.split('(');
+    chosenDistrict: function(birthPlace) {
+      var birthPlaceArr = birthPlace.split('(');
       this.cadastralCode = this.object.codCat;
       this.district = birthPlaceArr[1].slice(0, -1);
     },
@@ -390,7 +397,8 @@ export default {
     this.loadDistrict();
   },
   components: {
-    Datepicker
+    Datepicker,
+    VueSimpleSuggest
   }
 };
 </script>
@@ -431,7 +439,9 @@ a {
 
 .tax-code-card {
   height: 400px;
-  width: 628px;
+  width: 100%;
+  flex-grow: 1;
+  flex-basis: auto;
   border-radius: 25px;
   padding: 10px 10px 10px 10px;
   background-color: #FFFFFF;
@@ -453,4 +463,13 @@ a {
 .content-card>form>.form-group {
   margin-bottom: 0.3rem;
 }
+
+main.inner.cover {
+  display: flex;
+}
+
+button.sbx-google__submit {
+  display: none !important;
+}
+
 </style>
