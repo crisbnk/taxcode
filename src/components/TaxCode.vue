@@ -1,7 +1,9 @@
 <template>
 <main role="main" class="inner cover">
   <div class="tax-code-card">
-    <div class="header-card"></div>
+    <div class="header-card">
+      <h1>TAX CODE</h1>
+    </div>
     <div class="content-card">
       <form id="taxCodeForm" @submit.prevent="checkForm">
 
@@ -13,32 +15,32 @@
         </p>
 
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="taxCode">CODICE FISCALE</label>
+          <label class="col-sm-2 col-form-label" for="taxCode">TAX CODE</label>
           <div class="col-sm-10">
-            <input v-model="taxCodeOut" type="text" class="form-control" id="taxCode" placeholder="Codice Fiscale" disabled>
+            <input v-model="taxCodeOut" type="text" class="form-control" id="taxCode" placeholder="Tax Code" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="surname">COGNOME</label>
+          <label class="col-sm-2 col-form-label" for="surname">SURNAME</label>
           <div class="col-sm-10">
-            <input v-model="surname" v-bind:class="{error: isSurError}" type="text" class="form-control" id="surname" placeholder="Cognome" @input="forceUpperCase('surname')">
+            <input v-model="surname" v-bind:class="{error: isSurError}" type="text" class="form-control" id="surname" placeholder="Surname" @input="forceUpperCase('surname')">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="name">NOME</label>
+          <label class="col-sm-2 col-form-label" for="name">NAME</label>
           <div class="col-sm-6">
-            <input v-model="name" v-bind:class="{error: isNameError}" type="text" class="form-control" id="name" placeholder="Nome" @input="forceUpperCase('name')">
+            <input v-model="name" v-bind:class="{error: isNameError}" type="text" class="form-control" id="name" placeholder="Name" @input="forceUpperCase('name')">
           </div>
-          <label class="col-sm-2 col-form-label" for="sex">SESSO</label>
+          <label class="col-sm-2 col-form-label" for="sex">SEX</label>
           <div class="col-sm-2">
             <select v-model="sex" id="sex" class="form-control">
-              <option selected>M</option>
-              <option>F</option>
+              <option value='F' selected>F</option>
+              <option value='M'>M</option>
             </select>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="birthPlace">LUOGO DI NASCITA</label>
+          <label class="col-sm-2 col-form-label" for="birthPlace">PLACE OF BIRTH</label>
           <div class="col-sm-10">
             <vue-simple-suggest
               id="birthPlace"
@@ -49,22 +51,30 @@
               :display-attribute="suggestionAttribute"
               :value-attribute="suggestionAttribute"
               :filter-by-query="true"
-              placeholder="Luogo di Nascita"
+              placeholder="Place of birth"
               @select="selected">
             </vue-simple-suggest>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="district">PROVINCIA</label>
+          <label class="col-sm-2 col-form-label" for="district">DISTRICT</label>
           <div class="col-md-3">
-            <input v-model="district" type="text" class="form-control" id="district" placeholder="Provincia" disabled>
+            <input v-model="district" type="text" class="form-control" id="district" placeholder="District" disabled>
           </div>
-          <label class="col-sm-2 col-form-label" for="BirthData">DATA DI NASCITA</label>
+          <label class="col-sm-2 col-form-label" for="BirthData">DATE OF BIRTH</label>
           <div class="col-md-5">
-            <datepicker v-model="birthDate" name="birthPlace" class="form-control" v-bind:class="{error: isBirthDateError}" id="BirthDate"></datepicker>
+            <datepicker
+              v-model="birthDate"
+              name="birthPlace"
+              input-class="form-control"
+              v-bind:class="{error: isBirthDateError}"
+              id="BirthDate">
+            </datepicker>
           </div>
         </div>
-        <button type="submit">Submit</button>
+        <div class="form-group row justify-content-center">
+          <button type="submit" class="btn btn-secondary">SUBMIT</button>
+        </div>
       </form>
     </div>
   </div>
@@ -73,9 +83,15 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import { regex, evenValuesSchema, oddValuesSchema } from '../handlers';
+import {
+  regex,
+  foreignCountries,
+  evenValuesSchema,
+  oddValuesSchema
+} from '../handlers';
 import VueSimpleSuggest from 'vue-simple-suggest';
 import 'vue-simple-suggest/dist/styles.css';
+import Icon from 'vue-awesome/components/Icon'
 
 export default {
   name: 'TaxCode',
@@ -90,20 +106,13 @@ export default {
       surname: '',
       name: '',
       birthPlace: '',
-      sex: 'M',
+      sex: 'F',
       district: '',
       birthDate: '',
       districts: [],
       suggestionAttribute: 'district',
       object: {},
-      cadastralCode: '',
-      autoCompleteStyle : {
-        vueSimpleSuggest: "position-relative",
-        inputWrapper: "",
-        defaultInput : "form-control",
-        suggestions: "position-absolute list-group z-1000",
-        suggestItem: "list-group-item"
-      }
+      cadastralCode: ''
     };
   },
 
@@ -360,7 +369,7 @@ export default {
       const headers = {
         'Accept': 'application/sparql-results+json'
       };
-
+      this.districts.push(...foreignCountries);
       fetch(fullUrl, {
         headers
       }).then(body => {
@@ -398,7 +407,8 @@ export default {
   },
   components: {
     Datepicker,
-    VueSimpleSuggest
+    VueSimpleSuggest,
+    Icon
   }
 };
 </script>
@@ -428,6 +438,11 @@ a {
   border: 1px solid red;
 }
 
+main.inner.cover {
+  display: flex;
+  overflow-y: scroll;
+}
+
 .cover {
   padding: 0 1.5rem;
 }
@@ -438,11 +453,11 @@ a {
 }
 
 .tax-code-card {
-  height: 400px;
+  height: 100%;
   width: 100%;
   flex-grow: 1;
   flex-basis: auto;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   padding: 10px 10px 10px 10px;
   background-color: #FFFFFF;
   color: #009247;
@@ -450,26 +465,18 @@ a {
 }
 
 .header-card {
-  height: 41.2%;
+  height: 25%;
   background-color: #009247;
-  border-radius: 25px 25px 0px 0px;
+  /* border-radius: 25px 25px 0px 0px; */
 }
 
 .content-card {
-  height: 52.8%;
+  height: 75%;
   font-size: 11px;
 }
 
 .content-card>form>.form-group {
   margin-bottom: 0.3rem;
-}
-
-main.inner.cover {
-  display: flex;
-}
-
-button.sbx-google__submit {
-  display: none !important;
 }
 
 </style>

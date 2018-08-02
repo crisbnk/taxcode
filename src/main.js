@@ -7,7 +7,8 @@ import router from './router';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'flag-icon-css/css/flag-icon.min.css';
-import 'vue-awesome/icons';
+import 'vue-awesome/icons/beer';
+import 'vue-awesome/icons/wine-glass';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
