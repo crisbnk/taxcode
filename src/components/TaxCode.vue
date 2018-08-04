@@ -14,34 +14,27 @@
           </ul>
         </p>
 
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="taxCode">TAX CODE</label>
-          <div class="col-sm-10">
+        <div class="form-group">
+          <label class="col-sm-12 col-form-label" for="taxCode">TAX CODE</label>
+          <div class="col-sm-12">
             <input v-model="taxCodeOut" type="text" class="form-control" id="taxCode" placeholder="Tax Code" disabled>
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="surname">SURNAME</label>
-          <div class="col-sm-10">
+        <div class="form-group">
+          <label class="col-sm-12 col-form-label" for="surname">SURNAME</label>
+          <div class="col-sm-12">
             <input v-model="surname" v-bind:class="{error: isSurError}" type="text" class="form-control" id="surname" placeholder="Surname" @input="forceUpperCase('surname')">
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="name">NAME</label>
-          <div class="col-sm-6">
+        <div class="form-group">
+          <label class="col-sm-12 col-form-label" for="name">NAME</label>
+          <div class="col-sm-12">
             <input v-model="name" v-bind:class="{error: isNameError}" type="text" class="form-control" id="name" placeholder="Name" @input="forceUpperCase('name')">
           </div>
-          <label class="col-sm-2 col-form-label" for="sex">SEX</label>
-          <div class="col-sm-2">
-            <select v-model="sex" id="sex" class="form-control">
-              <option value='F' selected>F</option>
-              <option value='M'>M</option>
-            </select>
-          </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="birthPlace">PLACE OF BIRTH</label>
-          <div class="col-sm-10">
+        <div class="form-row col-sm-12">
+          <div class="form-group col-sm-10">
+            <label for="birthPlace">PLACE OF BIRTH</label>
             <vue-simple-suggest
               id="birthPlace"
               v-model="birthPlace"
@@ -55,20 +48,28 @@
               @select="selected">
             </vue-simple-suggest>
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label" for="district">DISTRICT</label>
-          <div class="col-md-3">
-            <input v-model="district" type="text" class="form-control" id="district" placeholder="District" disabled>
+          <div class="form-group col-sm-2">
+            <label for="district">DISTRICT</label>
+            <input v-model="district" type="text" class="form-control testclass" id="district" placeholder="District" disabled>
           </div>
-          <label class="col-sm-2 col-form-label" for="BirthData">DATE OF BIRTH</label>
-          <div class="col-md-5">
+        </div>
+        <div class="form-row col-sm-12">
+          <div class="form-group col-sm-2">
+            <label for="sex">SEX</label>
+            <select v-model="sex" id="sex" class="form-control">
+              <option value='F' selected>F</option>
+              <option value='M'>M</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-10">
+            <label for="BirthData">DATE OF BIRTH</label>
             <datepicker
               v-model="birthDate"
               name="birthPlace"
               input-class="form-control"
               v-bind:class="{error: isBirthDateError}"
-              id="BirthDate">
+              id="BirthDate"
+              placeholder="Date of Birth">
             </datepicker>
           </div>
         </div>
@@ -125,7 +126,7 @@ export default {
     chosenDistrict: function(birthPlace) {
       var birthPlaceArr = birthPlace.split('(');
       this.cadastralCode = this.object.codCat;
-      this.district = birthPlaceArr[1].slice(0, -1);
+      this.district = birthPlaceArr[birthPlaceArr.length - 1].slice(0, -1);
     },
     checkName: function() {
       const foundErr = this.name.match(regex);
@@ -396,6 +397,7 @@ export default {
             }
           }
         }
+        console.log(this.districts);
       });
     },
     forceUpperCase(prop) {
@@ -462,12 +464,15 @@ main.inner.cover {
   background-color: #FFFFFF;
   color: #009247;
   text-shadow: none;
+  border: 3px solid #009247;
+  border-radius: 10px;
 }
 
 .header-card {
   height: 25%;
   background-color: #009247;
-  /* border-radius: 25px 25px 0px 0px; */
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .content-card {
@@ -477,6 +482,10 @@ main.inner.cover {
 
 .content-card>form>.form-group {
   margin-bottom: 0.3rem;
+}
+
+#district {
+  height: 46px;
 }
 
 </style>

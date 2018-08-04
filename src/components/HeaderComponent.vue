@@ -1,10 +1,12 @@
 <template>
-    <header class="masthead mb-auto">
+    <header class="masthead">
       <div class="inner">
-        <h3 class="masthead-brand">
-          <span class="flag-icon flag-icon-it"></span>
-          Tax Code Generator
-        </h3>
+        <div class="masthead-brand">
+          <h3 class="inline brand-content">
+            <span class="flag-icon flag-icon-it"></span>
+            Tax Code Generator
+          </h3>
+        </div>
         <nav class="nav nav-masthead justify-content-center">
           <a class="nav-link active" href="#">Home</a>
           <a class="nav-link" href="#">Features</a>
@@ -30,22 +32,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* #headerComponent {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
   .masthead {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     border-bottom: 2px solid #42b983;
   }
-  /* .mb-auto, .my-auto {
-    margin-bottom: auto!important;
-} */
+
   .masthead-brand {
     margin-bottom: 0;
   }
@@ -73,6 +66,10 @@ export default {
     }
     .nav-masthead {
       float: right;
+    }
+
+    .brand-content {
+      text-align: center;
     }
   }
 </style>
