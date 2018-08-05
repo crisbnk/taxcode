@@ -2,7 +2,8 @@
 <div id="app">
   <div class="container-fluid d-flex h-100 mx-auto flex-column">
     <headerComponent></headerComponent>
-    <router-view/>
+    <!-- <router-view/> -->
+    <taxCode></taxCode>
     <footerComponent></footerComponent>
   </div>
 </div>
@@ -11,12 +12,14 @@
 <script>
 
 import HeaderComponent from './components/HeaderComponent.vue';
+import TaxCode from './components/TaxCode.vue';
 import FooterComponent from './components/FooterComponent.vue';
 
 export default {
   name: 'App',
   components: {
     HeaderComponent,
+    TaxCode,
     FooterComponent
   }
 };

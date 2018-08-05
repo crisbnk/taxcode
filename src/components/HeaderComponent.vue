@@ -3,14 +3,14 @@
       <div class="inner">
         <div class="masthead-brand">
           <h3 class="inline brand-content">
+            Tax Code
             <span class="flag-icon flag-icon-it"></span>
-            Tax Code Generator
           </h3>
         </div>
         <nav class="nav nav-masthead justify-content-center">
-          <a class="nav-link active" href="#">Home</a>
-          <a class="nav-link" href="#">Features</a>
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link active" href="#">{{ translations[`lang${lang}`].HEADER.CALCULATE }}</a>
+          <a class="nav-link" href="#">{{ translations[`lang${lang}`].HEADER.REVERSE }}</a>
+          <a class="nav-link" href="#">{{ translations[`lang${lang}`].HEADER.INFO }}</a>
         </nav>
       </div>
     </header>
@@ -19,14 +19,27 @@
 <script>
 import Vue from 'vue';
 import bNav from 'bootstrap-vue/es/components/nav/nav';
+import { serverBus } from '../main';
+import { translations } from '../translations';
 
 Vue.component('b-nav', bNav);
 
 export default {
   name: 'HeaderComponent',
+  data() {
+    return {
+      lang: 'EN',
+      translations: translations
+    };
+  },
   components: {
     bNav
-  }
+  },
+  created() {
+    serverBus.$on('setLang', (lang) => {
+      this.lang = lang;
+    });
+  },
 };
 </script>
 

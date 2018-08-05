@@ -15,26 +15,46 @@
         </p>
 
         <div class="form-group">
-          <label class="col-sm-12 col-form-label" for="taxCode">TAX CODE</label>
+          <label class="col-sm-12 col-form-label" for="taxCode">{{ translations[`lang${lang}`].MAIN.TAXCODE }}</label>
           <div class="col-sm-12">
-            <input v-model="taxCodeOut" type="text" class="form-control" id="taxCode" placeholder="Tax Code" disabled>
+            <input
+              v-model="taxCodeOut"
+              type="text"
+              class="form-control"
+              id="taxCode"
+              :placeholder="placeholder.TAXCODE"
+              disabled>
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-12 col-form-label" for="surname">SURNAME</label>
+          <label class="col-sm-12 col-form-label" for="surname">{{ translations[`lang${lang}`].MAIN.SURNAME }}</label>
           <div class="col-sm-12">
-            <input v-model="surname" v-bind:class="{error: isSurError}" type="text" class="form-control" id="surname" placeholder="Surname" @input="forceUpperCase('surname')">
+            <input
+              v-model="surname"
+              v-bind:class="{error: isSurError}"
+              type="text"
+              class="form-control"
+              id="surname"
+              :placeholder="placeholder.SURNAME"
+              @input="forceUpperCase('surname')">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-12 col-form-label" for="name">NAME</label>
+          <label class="col-sm-12 col-form-label" for="name">{{ translations[`lang${lang}`].MAIN.NAME }}</label>
           <div class="col-sm-12">
-            <input v-model="name" v-bind:class="{error: isNameError}" type="text" class="form-control" id="name" placeholder="Name" @input="forceUpperCase('name')">
+            <input
+              v-model="name"
+              v-bind:class="{error: isNameError}"
+              type="text"
+              class="form-control"
+              id="name"
+              :placeholder="placeholder.NAME"
+              @input="forceUpperCase('name')">
           </div>
         </div>
         <div class="form-row col-sm-12">
           <div class="form-group col-sm-10">
-            <label for="birthPlace">PLACE OF BIRTH</label>
+            <label for="birthPlace">{{ translations[`lang${lang}`].MAIN.PLACEOFBIRTH }}</label>
             <vue-simple-suggest
               id="birthPlace"
               v-model="birthPlace"
@@ -44,37 +64,44 @@
               :display-attribute="suggestionAttribute"
               :value-attribute="suggestionAttribute"
               :filter-by-query="true"
-              placeholder="Place of birth"
+              :placeholder="placeholder.PLACEOFBIRTH"
               @select="selected">
             </vue-simple-suggest>
           </div>
           <div class="form-group col-sm-2">
-            <label for="district">DISTRICT</label>
-            <input v-model="district" type="text" class="form-control testclass" id="district" placeholder="District" disabled>
+            <label for="district">{{ translations[`lang${lang}`].MAIN.DISTRICT }}</label>
+            <input
+              v-model="district"
+              type="text"
+              class="form-control testclass"
+              id="district"
+              :placeholder="placeholder.DISTRICT"
+              disabled>
           </div>
         </div>
         <div class="form-row col-sm-12">
           <div class="form-group col-sm-2">
-            <label for="sex">SEX</label>
+            <label for="sex">{{ translations[`lang${lang}`].MAIN.SEX }}</label>
             <select v-model="sex" id="sex" class="form-control">
               <option value='F' selected>F</option>
               <option value='M'>M</option>
             </select>
           </div>
           <div class="form-group col-sm-10">
-            <label for="BirthData">DATE OF BIRTH</label>
+            <label for="BirthData">{{ translations[`lang${lang}`].MAIN.DATEOFBIRTH }}</label>
             <datepicker
               v-model="birthDate"
               name="birthPlace"
               input-class="form-control"
               v-bind:class="{error: isBirthDateError}"
               id="BirthDate"
-              placeholder="Date of Birth">
+              :disabledPicker="disabledPicker"
+              :placeholder="placeholder.DATEOFBIRTH">
             </datepicker>
           </div>
         </div>
         <div class="form-group row justify-content-center">
-          <button type="submit" class="btn btn-secondary">SUBMIT</button>
+          <button type="submit" class="btn btn-secondary">{{ translations[`lang${lang}`].MAIN.CALCULATE }}</button>
         </div>
       </form>
     </div>
@@ -83,6 +110,7 @@
 </template>
 
 <script>
+import { serverBus } from '../main';
 import Datepicker from 'vuejs-datepicker';
 import {
   regex,
@@ -90,9 +118,9 @@ import {
   evenValuesSchema,
   oddValuesSchema
 } from '../handlers';
+import { translations } from '../translations';
 import VueSimpleSuggest from 'vue-simple-suggest';
 import 'vue-simple-suggest/dist/styles.css';
-import Icon from 'vue-awesome/components/Icon'
 
 export default {
   name: 'TaxCode',
@@ -113,10 +141,13 @@ export default {
       districts: [],
       suggestionAttribute: 'district',
       object: {},
-      cadastralCode: ''
+      cadastralCode: '',
+      lang: 'EN',
+      translations: translations,
+      placeholder: translations.langEN.PLACEHOLDER,
+      disabledPicker: false
     };
   },
-
   methods: {
     selected: function(obj) {
       if(!obj) return;
@@ -397,20 +428,25 @@ export default {
             }
           }
         }
-        console.log(this.districts);
       });
     },
     forceUpperCase(prop) {
       this[prop] = this[prop].toUpperCase();
     }
   },
+  created() {
+    serverBus.$on('setLang', (lang) => {
+      console.log(`lang${lang}`);
+      this.lang = lang;
+      this.placeholder = translations[`lang${lang}`].PLACEHOLDER
+    });
+  },
   beforeMount() {
     this.loadDistrict();
   },
   components: {
     Datepicker,
-    VueSimpleSuggest,
-    Icon
+    VueSimpleSuggest
   }
 };
 </script>

@@ -9,6 +9,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'flag-icon-css/css/flag-icon.min.css';
 import 'vue-awesome/icons/beer';
 import 'vue-awesome/icons/wine-glass';
+import 'vue-awesome/icons/globe';
+import 'vue-awesome/icons/code';
+
+export const serverBus = new Vue();
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
