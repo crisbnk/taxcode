@@ -114,10 +114,16 @@ import { serverBus } from '../main';
 import Datepicker from 'vuejs-datepicker';
 import {
   regex,
-  foreignCountries,
+  splitChar,
+  generateSurnameCode,
+  generateNameCode,
+  birthDateResult
+} from '../handlers';
+import {
   evenValuesSchema,
   oddValuesSchema
-} from '../handlers';
+} from '../valueSchemas';
+import { foreignCountries } from '../foreignCountries';
 import { translations } from '../translations';
 import VueSimpleSuggest from 'vue-simple-suggest';
 import 'vue-simple-suggest/dist/styles.css';
@@ -216,119 +222,28 @@ export default {
       }
     },
 
-    splitChar: function(stringCheck) {
-      var result = {};
-
-      var vocals = ['A', 'E', 'I', 'O', 'U'];
-      var str = stringCheck.replace(/\s/g, '');
-
-      var vocalsInStr = [];
-      var consonantsInStr = [];
-
-      function isVocal(value) {
-        if (vocals.includes(value)) {
-          vocalsInStr[vocalsInStr.length] = value;
-        } else {
-          consonantsInStr[consonantsInStr.length] = value;
-        }
-      }
-
-      var strInArray = str.split('');
-      for (var i = 0; i < strInArray.length; i++) {
-        isVocal(strInArray[i]);
-      }
-
-      result.vocals = vocalsInStr;
-      result.consonants = consonantsInStr;
-
-      return result;
-    },
-
-    generateSurnameCode: function(surnameSplit) {
-      var result = '';
-
-      if (surnameSplit.consonants.length > 2) {
-        for (var i = 0; i < 3; i++) {
-          result += surnameSplit.consonants[i];
-        }
-      } else {
-        for (var w = 0; w < surnameSplit.consonants.length; w++) {
-          result += surnameSplit.consonants[w];
-        }
-      }
-
-      if (surnameSplit.vocals.length < 3 && result.length < 3) {
-        for (var k = surnameSplit.vocals.length; k < 3; k++) {
-          surnameSplit.vocals[surnameSplit.vocals.length] = 'X';
-        }
-      }
-
-      if (result.length < 3) {
-        var goal = (3 - result.length);
-        for (var j = 0; j < goal; j++) {
-          result += surnameSplit.vocals[j];
-        }
-      }
-
-      return result;
-    },
-
-    generateNameCode: function(nameSplit) {
-      var result = '';
-      if (nameSplit.consonants.length > 2) {
-        if (nameSplit.consonants.length === 3) {
-          for (var i = 0; i < 3; i++) {
-            result += nameSplit.consonants[i];
-          }
-        } else if (nameSplit.consonants.length > 3) {
-          result += nameSplit.consonants[0];
-          result += nameSplit.consonants[2];
-          result += nameSplit.consonants[3];
-        }
-      } else {
-        for (var w = 0; w < nameSplit.consonants.length; w++) {
-          result += nameSplit.consonants[w];
-        }
-      }
-
-      if (nameSplit.vocals.length < 3 && result.length < 3) {
-        for (var k = nameSplit.vocals.length; k < 3; k++) {
-          nameSplit.vocals[nameSplit.vocals.length] = 'X';
-        }
-      }
-
-      if (result.length < 3) {
-        var goal = (3 - result.length);
-        for (var j = 0; j < goal; j++) {
-          result += nameSplit.vocals[j];
-        }
-      }
-
-      return result;
-    },
-
-    birthDateResult: function() {
-      var result = '';
-      const date = new Date(this.birthDate);
-      const day = date.getDate();
-      const month = date.getMonth();
-      const year = date.getFullYear();
-
-      var y = year.toString().substr(2);
-      result += y;
-
-      var genericMonth = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'];
-      result += genericMonth[month];
-
-      var d = '';
-      if (this.sex === 'M') {
-        day < 10 ? d = ('0' + day.toString()) : d = day.toString();
-      } else if (this.sex === 'F') {
-        d = (day + 40).toString();
-      }
-      result += d;
-      return result;
-    },
+    // birthDateResult: function() {
+    //   var result = '';
+    //   const date = new Date(this.birthDate);
+    //   const day = date.getDate();
+    //   const month = date.getMonth();
+    //   const year = date.getFullYear();
+    //
+    //   var y = year.toString().substr(2);
+    //   result += y;
+    //
+    //   var genericMonth = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'];
+    //   result += genericMonth[month];
+    //
+    //   var d = '';
+    //   if (this.sex === 'M') {
+    //     day < 10 ? d = ('0' + day.toString()) : d = day.toString();
+    //   } else if (this.sex === 'F') {
+    //     d = (day + 40).toString();
+    //   }
+    //   result += d;
+    //   return result;
+    // },
 
     lastCharResult: function() {
       var evenValues = [];
@@ -372,11 +287,11 @@ export default {
     },
 
     createTaxCode: function() {
-      var surnameSplit = this.splitChar(this.surname);
-      var nameSplit = this.splitChar(this.name);
-      var surnameResult = this.generateSurnameCode(surnameSplit);
-      var nameResult = this.generateNameCode(nameSplit);
-      var birthResult = this.birthDateResult(this.birthDate);
+      var surnameSplit = splitChar(this.surname);
+      var nameSplit = splitChar(this.name);
+      var surnameResult = generateSurnameCode(surnameSplit);
+      var nameResult = generateNameCode(nameSplit);
+      var birthResult = birthDateResult(this.birthDate, this.sex);
 
       this.taxCodeOut = surnameResult;
       this.taxCodeOut += nameResult;
@@ -387,7 +302,7 @@ export default {
       this.taxCodeOut += lastCharResult;
     },
 
-    loadDistrict: function(callback) {
+    loadDistrict: function() {
       const endpointUrl = 'https://query.wikidata.org/sparql';
       const sparqlQuery =
         `SELECT DISTINCT ?comune_it ?label ?codcat ?codice_immatricolazione WHERE {

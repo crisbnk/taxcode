@@ -1,7 +1,7 @@
 <template>
     <header class="masthead">
       <div class="inner">
-        <div class="masthead-brand">
+        <div class="masthead-brand brand-centered">
           <h3 class="inline brand-content">
             Tax Code
             <span class="flag-icon flag-icon-it"></span>
@@ -82,6 +82,12 @@ export default {
     }
 
     .brand-content {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .brand-centered {
       text-align: center;
     }
   }

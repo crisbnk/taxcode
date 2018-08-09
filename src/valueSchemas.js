@@ -1,0 +1,219 @@
+exports.evenValuesSchema = [{
+  char: '0',
+  value: 0
+}, {
+  char: '1',
+  value: 1
+}, {
+  char: '2',
+  value: 2
+}, {
+  char: '3',
+  value: 3
+}, {
+  char: '4',
+  value: 4
+}, {
+  char: '5',
+  value: 5
+}, {
+  char: '6',
+  value: 6
+}, {
+  char: '7',
+  value: 7
+}, {
+  char: '8',
+  value: 8
+}, {
+  char: '9',
+  value: 9
+}, {
+  char: 'A',
+  value: 0
+}, {
+  char: 'B',
+  value: 1
+}, {
+  char: 'C',
+  value: 2
+}, {
+  char: 'D',
+  value: 3
+}, {
+  char: 'E',
+  value: 4
+}, {
+  char: 'F',
+  value: 5
+}, {
+  char: 'G',
+  value: 6
+}, {
+  char: 'H',
+  value: 7
+}, {
+  char: 'I',
+  value: 8
+}, {
+  char: 'J',
+  value: 9
+}, {
+  char: 'K',
+  value: 10
+}, {
+  char: 'L',
+  value: 11
+}, {
+  char: 'M',
+  value: 12
+}, {
+  char: 'N',
+  value: 13
+}, {
+  char: 'O',
+  value: 14
+}, {
+  char: 'P',
+  value: 15
+}, {
+  char: 'Q',
+  value: 16
+}, {
+  char: 'R',
+  value: 17
+}, {
+  char: 'S',
+  value: 18
+}, {
+  char: 'T',
+  value: 19
+}, {
+  char: 'U',
+  value: 20
+}, {
+  char: 'V',
+  value: 21
+}, {
+  char: 'W',
+  value: 22
+}, {
+  char: 'X',
+  value: 23
+}, {
+  char: 'Y',
+  value: 24
+}, {
+  char: 'Z',
+  value: 25
+}];
+
+exports.oddValuesSchema = [{
+  char: '0',
+  value: 1
+}, {
+  char: '1',
+  value: 0
+}, {
+  char: '2',
+  value: 5
+}, {
+  char: '3',
+  value: 7
+}, {
+  char: '4',
+  value: 9
+}, {
+  char: '5',
+  value: 13
+}, {
+  char: '6',
+  value: 15
+}, {
+  char: '7',
+  value: 17
+}, {
+  char: '8',
+  value: 19
+}, {
+  char: '9',
+  value: 21
+}, {
+  char: 'A',
+  value: 1
+}, {
+  char: 'B',
+  value: 0
+}, {
+  char: 'C',
+  value: 5
+}, {
+  char: 'D',
+  value: 7
+}, {
+  char: 'E',
+  value: 9
+}, {
+  char: 'F',
+  value: 13
+}, {
+  char: 'G',
+  value: 15
+}, {
+  char: 'H',
+  value: 17
+}, {
+  char: 'I',
+  value: 19
+}, {
+  char: 'J',
+  value: 21
+}, {
+  char: 'K',
+  value: 2
+}, {
+  char: 'L',
+  value: 4
+}, {
+  char: 'M',
+  value: 18
+}, {
+  char: 'N',
+  value: 20
+}, {
+  char: 'O',
+  value: 11
+}, {
+  char: 'P',
+  value: 3
+}, {
+  char: 'Q',
+  value: 6
+}, {
+  char: 'R',
+  value: 8
+}, {
+  char: 'S',
+  value: 12
+}, {
+  char: 'T',
+  value: 14
+}, {
+  char: 'U',
+  value: 16
+}, {
+  char: 'V',
+  value: 10
+}, {
+  char: 'W',
+  value: 22
+}, {
+  char: 'X',
+  value: 25
+}, {
+  char: 'Y',
+  value: 24
+}, {
+  char: 'Z',
+  value: 23
+}];
